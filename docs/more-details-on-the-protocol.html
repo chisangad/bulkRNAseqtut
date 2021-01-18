@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 More details on the protocol | An RNA-seq Data Analysis Protocol</title>
+  <meta name="description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 More details on the protocol | An RNA-seq Data Analysis Protocol" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 More details on the protocol | An RNA-seq Data Analysis Protocol" />
+  
+  <meta name="twitter:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  
+
+<meta name="author" content="Wei Shi" />
+
+
+<meta name="date" content="2021-01-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="rna-seq-analysis-protocol.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Bulk RNA-seq analysis protocol</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>2</b> Prerequisites</a><ul>
+<li class="chapter" data-level="2.1" data-path="prerequisites.html"><a href="prerequisites.html#data"><i class="fa fa-check"></i><b>2.1</b> Data</a></li>
+<li class="chapter" data-level="2.2" data-path="prerequisites.html"><a href="prerequisites.html#software"><i class="fa fa-check"></i><b>2.2</b> SOFTWARE</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="running-environment.html"><a href="running-environment.html"><i class="fa fa-check"></i><b>3</b> Running Environment</a><ul>
+<li class="chapter" data-level="3.1" data-path="running-environment.html"><a href="running-environment.html#rstudio"><i class="fa fa-check"></i><b>3.1</b> RStudio</a></li>
+<li class="chapter" data-level="3.2" data-path="running-environment.html"><a href="running-environment.html#unix-server-laptop"><i class="fa fa-check"></i><b>3.2</b> UNIX server + laptop</a></li>
+<li class="chapter" data-level="3.3" data-path="running-environment.html"><a href="running-environment.html#laptop-only"><i class="fa fa-check"></i><b>3.3</b> Laptop only</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="rna-seq-analysis-protocol.html"><a href="rna-seq-analysis-protocol.html"><i class="fa fa-check"></i><b>4</b> RNA-SEQ analysis protocol</a></li>
+<li class="chapter" data-level="5" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html"><i class="fa fa-check"></i><b>5</b> More details on the protocol</a><ul>
+<li class="chapter" data-level="5.1" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sequencing-quality"><i class="fa fa-check"></i><b>5.1</b> Sequencing quality</a></li>
+<li class="chapter" data-level="5.2" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#gene-annotation"><i class="fa fa-check"></i><b>5.2</b> Gene annotation</a></li>
+<li class="chapter" data-level="5.3" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#index-building"><i class="fa fa-check"></i><b>5.3</b> Index building</a></li>
+<li class="chapter" data-level="5.4" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#read-mapping"><i class="fa fa-check"></i><b>5.4</b> Read mapping</a></li>
+<li class="chapter" data-level="5.5" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#read-counting"><i class="fa fa-check"></i><b>5.5</b> Read counting</a></li>
+<li class="chapter" data-level="5.6" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#gene-filtering"><i class="fa fa-check"></i><b>5.6</b> Gene filtering</a></li>
+<li class="chapter" data-level="5.7" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sample-clustering"><i class="fa fa-check"></i><b>5.7</b> Sample clustering</a></li>
+<li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An RNA-seq Data Analysis Protocol</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="more-details-on-the-protocol" class="section level1">
+<h1><span class="header-section-number">5</span> More details on the protocol</h1>
+<div id="sequencing-quality" class="section level2">
+<h2><span class="header-section-number">5.1</span> Sequencing quality</h2>
+<p>Sequencing output from a sequencer is stored in one or more FASTQ-format files. Each FASTQ
+file contains nucleotide sequences and sequencing quality strings for the reads generated from a
+library. The quality string for a read has the same length as the read sequence and each letter in the string encodes the sequencing quality score of the corresponding read base. The ASCII code of a letter is equal to the Phred quality score of the read base plus an integer offset.
+A Phred quality score denotes the sequencing quality of a read base. It is computed as −10 x log<sub>10</sub>P, where <em>P</em> is the probability that a read base is incorrectly called</p>
+<p>The <em>qualityScores()</em> function in <strong>Rsubread</strong> extracts quality strings from a FASTQ file and returns the Phred scores in a data matrix object in which rows are reads and columns are base positions. Distribution of Phred scores at each base position can be viewed by using the <em>boxplot()</em> function. For reads generated by the popular Illumina sequencers such as HiSeq and NextSeq, sequencing quality is usually lower at the two ends of the read (particular at the 3’ end) compared to the middle part of the read. The vast majority of read bases in a FASTQ file are expected to have a Phred score greater than 13 (corresponding to <em>P</em> value of 0.05). Fig. 2 shows the boxplots of quality scores in a library that was sequenced in 2015 by an Illumina HiSeq 2000 sequencer. The boxplots show that this dataset has a high sequencing quality.</p>
+<p>Box 1 | The Simplified Annotation Format (SAF)</p>
+<pre><code> The Simplified Annotation Format is defined in Rsubread and this format is used by
+ featureCounts to counts reads to genes or other genomic features. This format only
+ includes five compulsory columns: ‘GeneID’, ‘Chr’, ‘Start’, ‘End’ and
+ ‘Strand’. Below is an example of SAF annotation for two RefSeq genes with Entrez
+ gene identifiers 497097 and 100503874.
+ GeneID    Chr  Start   End     Strand**
+ 497097    chr1 3204563 3207049  -
+ 497097    chr1 3411783 3411982  -
+ 497097    chr1 3660633 3661579  -
+ 100503874 chr1 3637390 3640590  -
+ 100503874 chr1 3648928 3648985  -
+ Gene identifiers included in the column ‘GeneID’ can be integer numbers (eg. Entrez gene   identifiers) or character strings (eg. gene symbols).</code></pre>
+</div>
+<div id="gene-annotation" class="section level2">
+<h2><span class="header-section-number">5.2</span> Gene annotation</h2>
+<p>The Rsubread package contains inbuilt gene annotation for human and mouse, making it convenient to process RNA-seq data generated from human or mouse samples. This annotation was generated based on the NCBI RefSeq gene annotation. In this annotation, overlapping exons from the same gene were merged to form a single exon covering all overlapping exons. The inbuilt annotations can be used in both read counting and read mapping. The inbuilt annotations are in SAF format (Box 1). They can be retrieved using the getInBuiltAnnotation() function in Rsubread.</p>
+<p>Alternatively, external gene annotations such as those generated in Ensembl database (9) or
+GENCODE database (10) can be used for counting and mapping. Formats of external gene annotation that are accepted by Rsubread functions include GTF and GFF3 (<a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4" class="uri">https://genome.ucsc.edu/FAQ/FAQformat.html#format4</a>).</p>
+</div>
+<div id="index-building" class="section level2">
+<h2><span class="header-section-number">5.3</span> Index building</h2>
+<p>An index built for a reference genome contains a large hash table, which stores chromosomal
+locations of subreads (16bp mers) extracted from the reference genome. With the hash table,
+subreads extracted from a read can be quickly mapped to the genome via a quick search (hashing)
+in the table. Candidate mapping locations of the read will then be determined by the voting of
+mapped subreads and final mapping location will be determined by further evaluation of candidate
+mapping locations.</p>
+<p>The index can be built as either a full index or a gapped index. A full index contains subreads
+extracted from every base location of the genome, whereas a gapped index contains subreads
+extracted from every three bases in the genome. The use of a full index will make read mapping
+faster, but it also causes more computer memory to be used. Full index and gapped index can be
+further split into blocks. This can reduce memory usage but mapping time will increase on the
+other hand. See Box 2 for more information on gapped index and split index.</p>
+<p>By default, <em>buildindex()</em> constructs a single-block full index for a reference genome. This
+allows maximum mapping speed to be achieved. To our knowledge, Rsubread is the only tool that
+allows users to tune the amount of memory used to achieve a desired balance between memory
+consumption and speed in read mapping. This flexibility allows Rsubread to be run on various
+computing platforms.</p>
+</div>
+<div id="read-mapping" class="section level2">
+<h2><span class="header-section-number">5.4</span> Read mapping</h2>
+<p>After an index is successfully built, sequencing reads can then be mapped to the reference genome
+via the <em>align()</em> function. Reads are mapped via a two-pass procedure. In the first pass, subreads (seeds) are extracted from each read and their locations in the genome are quickly determined by looking up the hash table included in the index. Mapped subreads then ‘vote’ for mapping locations of the read. This <em>‘seed-and-vote’</em> strategy has been demonstrated to be more efficient and accurate than the conventional <em>‘seed-and-extend’</em> strategy <span class="citation">(Liao, Smyth, and Shi <a href="#ref-Rsubread2019">2019</a>, <a href="#ref-liao2013subread">2013</a><a href="#ref-liao2013subread">b</a>)</span>. Indels will also be discovered in this step.</p>
+<p>In the second pass, reads are re-aligned to the genome to determine their final mapping location
+by taking into account indels identified from the first pass. Note that <em>align()</em> does not perform full alignment for exon-spanning reads. It only aligns such reads to the exon they most overlap with.</p>
+<p>Read bases overlapping other exons in such reads are soft-clipped. However this partial alignment
+is sufficient for RNA-seq expression quantification at the gene level because reads can be confidently assigned to one of the exons in the gene. To fully align exon-spanning reads, the <em>subjunc()</em> function in <strong>Rsubread</strong> can be used. <em>subjunc()</em> is slower than <em>align()</em>, but it is still computationally competitive. <em>subjunc()</em> is also a two-pass aligner. However it not only collects indels in its first pass, it also collects exon splicing sites. In its second pass, it will use detected exon splicing sites to further improve the mapping of exon-spanning reads.</p>
+<pre><code>Box 2 | Build an index with less memory usage
+
+A gapped index can be built to reduce the index size. 
+Size of a gapped index is only one third of size of the full index. 
+Use of a gapped index could save more than 50% of memory used in read mapping. 
+During read mapping, the memory contains the index and also other data such as chromosomal sequences, read sequences and intermediate mapping data. 
+For human or mouse genome, size of the full index is ~15GB and size of the gapped index is 5GB. 
+During read mapping, ~18GB of memory is consumed when full index is used and ~8GB when gapped index is used. 
+Below is the command for building a gapped index:
+&gt; buildindex(&quot;mm10_reference&quot;, &quot;mm10.fa&quot;, gappedIndex=TRUE)
+The full index and gapped index can be split into blocks to further 
+control the amount of memory to be used. 
+Users can specify the maximum memory allowed and  buildindex() will 
+automatically split the index into required number of blocks. 
+The index blocks will be loaded to memory sequentially during read mapping. 
+The more blocks an index is split into, the smaller the memory required for read mapping. However the read mapping time will also increase. 
+The following command builds a full index that is split into multiple blocks to achieve a memory use no more than 4000MB.
+&gt; buildindex(&quot;mm10_reference&quot;, &quot;mm10.fa&quot;, indexSplit=TRUE,memory=4000)</code></pre>
+<p><strong>Rsubread</strong> aligners are the first to use the two-pass strategy to improve the mapping quality
+of RNA-seq reads. This strategy has later been adopted by other RNA-seq aligners.
+Mapping results from <em>align()</em> include both mapped and unmapped reads. The results are
+saved to files in BAM or SAM format. Indels identified in the mapping are saved to VCF-format
+files. <em>align()</em> also returns an <strong>R</strong> object that contains mapping statistics for each library.</p>
+<p>Percentage of successfully mapped reads in a library is affected by multiple factors including
+sequencing quality, read length, paired-end or single-end, quality of reference sequences and
+aligner setting. For the single-end reads generated from the latest Illumina
+HiSeq/NextSeq/NovaSeq sequencers, <em>align()</em> typically reports around 80-90 percent of mapped
+reads. If paired-end reads are provided, the mapping percentage is expected to be slightly higher.</p>
+</div>
+<div id="read-counting" class="section level2">
+<h2><span class="header-section-number">5.5</span> Read counting</h2>
+<p>After read mapping is completed, mapped reads can be counted to genes by <em>featureCounts()</em>
+function in <strong>Rsubread</strong>. <em>featureCounts()</em> compares chromosomal coordinates of mapped reads with chromosomal coordinates of exons in each gene. <em>CIGAR</em> (Concise Idiosyncratic Gapped
+Alignment Report) string of each mapped read is analyzed so that read assignment can be done
+precisely. <em>featureCounts()</em> provides a wide range of counting options. For example, overlap
+between a read and an exon can be determined based on the number of overlapping bases, fraction
+of overlapping bases and number of non-overlapping bases. Multi-mapping reads can be excluded from counting, or only have their primary alignment counted or have all their alignments counted.</p>
+<p>Similarly, for multi-overlapping reads that overlap more than one gene they can be excluded from
+counting or be counted to all their overlapping genes.</p>
+<p><strong>featureCounts()</strong> accepts both name-sorted and location-sorted reads. It can output counting
+details for each individual read.</p>
+<p><strong>featureCounts()</strong> returns an R object that includes a count table, gene annotation and counting statistics. Percentage of successfully assigned reads is affected by many factors including cell type, annotation quality and mRNA purity. The counting percentage could be highly variable between experiments, even for well annotated genomes such as human and mouse genomes. Typically around 50 – 90 percent of mapped reads are assigned to genes in a mouse experiment. For the RNA-seq data used in this protocol, ~70 percent of reads were successfully assigned.</p>
+</div>
+<div id="gene-filtering" class="section level2">
+<h2><span class="header-section-number">5.6</span> Gene filtering</h2>
+<p>Genes that do not express or express at a very low level in all the samples are filtered out from analysis. Such genes are very hard to handle in the statistical testing. Typically ~50 percent of genes are excluded in the analysis of mouse RNA-seq data. For the RNA-seq data used in this protocol, 58 percent of genes were removed from analysis.</p>
+</div>
+<div id="sample-clustering" class="section level2">
+<h2><span class="header-section-number">5.7</span> Sample clustering</h2>
+<p>Examining the clustering of samples is a useful way to check the quality of samples. Sample
+replicates should cluster together and different sample types should separate from each other.</p>
+</div>
+<div id="statistical-testing-of-differential-expression" class="section level2">
+<h2><span class="header-section-number">5.8</span> Statistical testing of differential expression</h2>
+<p>A rigorous <em>false discovery rate (FDR)</em> threshold should be applied when calling differentially
+expressed genes. This threshold is usually <em>0.05</em>, but it might be relaxed to <em>0.1</em> or even <em>0.15</em> in some circumstances. The <em>treat()</em> function in <strong>limma</strong> might be considered for testing against a fold change of gene expression.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Rsubread2019">
+<p>Liao, Yang, Gordon K. Smyth, and Wei Shi. 2019. “The R Package Rsubread Is Easier, Faster, Cheaper and Better for Alignment and Quantification of RNA Sequencing Reads.” <em>Nucleic Acids Research</em> 47 (8): e47. <a href="https://doi.org/10.1093/nar/gkz114">https://doi.org/10.1093/nar/gkz114</a>.</p>
+</div>
+<div id="ref-liao2013subread">
+<p>Liao, Yang, Gordon K Smyth, and Wei Shi. 2013b. “The Subread Aligner: Fast, Accurate and Scalable Read Mapping by Seed-and-Vote.” <em>Nucleic Acids Research</em> 41 (10). Oxford University Press: e108–e108.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="rna-seq-analysis-protocol.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-RNA-seq-protocol.pdf", "bookdown-RNA-seq-protocol.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

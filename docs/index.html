@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>An RNA-seq Data Analysis Protocol</title>
-  <meta name="description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="An RNA-seq Data Analysis Protocol" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta property="og:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="An RNA-seq Data Analysis Protocol" />
   
-  <meta name="twitter:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="twitter:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   
 
-<meta name="author" content="Wei Shi" />
+<meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-01-18" />
+<meta name="date" content="2021-02-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,8 +50,6 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -155,6 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sample-clustering"><i class="fa fa-check"></i><b>5.7</b> Sample clustering</a></li>
 <li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -178,12 +186,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">An RNA-seq Data Analysis Protocol</h1>
-<p class="author"><em>Wei Shi</em></p>
-<p class="date"><em>2021-01-18</em></p>
+<p class="author"><em>David Chisanga and Wei Shi</em></p>
+<p class="date"><em>2021-02-08</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered">
 <h1>Preface</h1>
-<p>This tutorial describes a RNA-seq analysis protocol that can be used to analyse Bulk RNA-seq data on the ONJCRI Bioinformatics server. The guide provides a brief discussion and examples of the steps involved in the analysis of Bulk RNA-seq data, from raw data through to differential expression analysis.</p>
+<p>This tutorial describes a RNA-seq analysis protocol that can be used to analyse Bulk RNA-seq data on the Bioinformatics server. The guide provides a brief discussion and examples of the steps involved in the analysis of Bulk RNA-seq data, from raw data through to differential expression analysis.</p>
 
 </div>
             </section>

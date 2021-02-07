@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Downstream analysis | An RNA-seq Data Analysis Protocol</title>
+  <meta name="description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Downstream analysis | An RNA-seq Data Analysis Protocol" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Downstream analysis | An RNA-seq Data Analysis Protocol" />
+  
+  <meta name="twitter:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
+  
+
+<meta name="author" content="David Chisanga and Wei Shi" />
+
+
+<meta name="date" content="2021-02-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="more-details-on-the-protocol.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Bulk RNA-seq analysis protocol</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>2</b> Prerequisites</a><ul>
+<li class="chapter" data-level="2.1" data-path="prerequisites.html"><a href="prerequisites.html#data"><i class="fa fa-check"></i><b>2.1</b> Data</a></li>
+<li class="chapter" data-level="2.2" data-path="prerequisites.html"><a href="prerequisites.html#software"><i class="fa fa-check"></i><b>2.2</b> SOFTWARE</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="running-environment.html"><a href="running-environment.html"><i class="fa fa-check"></i><b>3</b> Running Environment</a><ul>
+<li class="chapter" data-level="3.1" data-path="running-environment.html"><a href="running-environment.html#rstudio"><i class="fa fa-check"></i><b>3.1</b> RStudio</a></li>
+<li class="chapter" data-level="3.2" data-path="running-environment.html"><a href="running-environment.html#unix-server-laptop"><i class="fa fa-check"></i><b>3.2</b> UNIX server + laptop</a></li>
+<li class="chapter" data-level="3.3" data-path="running-environment.html"><a href="running-environment.html#laptop-only"><i class="fa fa-check"></i><b>3.3</b> Laptop only</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="rna-seq-analysis-protocol.html"><a href="rna-seq-analysis-protocol.html"><i class="fa fa-check"></i><b>4</b> RNA-SEQ analysis protocol</a></li>
+<li class="chapter" data-level="5" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html"><i class="fa fa-check"></i><b>5</b> More details on the protocol</a><ul>
+<li class="chapter" data-level="5.1" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sequencing-quality"><i class="fa fa-check"></i><b>5.1</b> Sequencing quality</a></li>
+<li class="chapter" data-level="5.2" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#gene-annotation"><i class="fa fa-check"></i><b>5.2</b> Gene annotation</a></li>
+<li class="chapter" data-level="5.3" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#index-building"><i class="fa fa-check"></i><b>5.3</b> Index building</a></li>
+<li class="chapter" data-level="5.4" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#read-mapping"><i class="fa fa-check"></i><b>5.4</b> Read mapping</a></li>
+<li class="chapter" data-level="5.5" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#read-counting"><i class="fa fa-check"></i><b>5.5</b> Read counting</a></li>
+<li class="chapter" data-level="5.6" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#gene-filtering"><i class="fa fa-check"></i><b>5.6</b> Gene filtering</a></li>
+<li class="chapter" data-level="5.7" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sample-clustering"><i class="fa fa-check"></i><b>5.7</b> Sample clustering</a></li>
+<li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An RNA-seq Data Analysis Protocol</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="downstream-analysis" class="section level1">
+<h1><span class="header-section-number">6</span> Downstream analysis</h1>
+<p>In this chapter we will run through a series of example downstream analyses that can be performed on the identified differentially expressed genes.</p>
+<div id="visualisations" class="section level2">
+<h2><span class="header-section-number">6.1</span> Visualisations</h2>
+<p>There are a number of ways in which you can visualise your RNA-seq data, while in this chapter we attempt to cover the most commonly ways of visualising your RNA-seq data, this is by no means exhaustive.</p>
+<div id="heatmaps" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Heatmaps</h3>
+<p>Heatmaps are a great way of demonstrating the differences in the expression patterns between different conditions in your dataset. Here we use the <em>coolmap</em> function within the <strong>limma</strong>
+package which is an extension of the <em>heatmap.2</em> function within the <strong>gplots</strong> package. The heatmap below shows the expression pattern of the top 100 differentially expressed genes between CIS vs WT.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co">#load the required package</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw">library</span>(limma)</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">load</span>(<span class="st">&quot;Counts.rdata&quot;</span>)</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="kw">load</span>(<span class="st">&quot;DE_results.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">heat.data &lt;-<span class="st"> </span>y<span class="op">$</span>E[<span class="kw">head</span>(<span class="kw">rownames</span>(de.genes), <span class="dt">n =</span> <span class="dv">100</span>), ]</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="kw">colnames</span>(heat.data) &lt;-<span class="st"> </span>targets<span class="op">$</span>Sample</a>
+<a class="sourceLine" id="cb33-7" data-line-number="7"><span class="kw">rownames</span>(heat.data) &lt;-<span class="st"> </span><span class="kw">head</span>(de.genes<span class="op">$</span>Symbol, <span class="dt">n =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="kw">coolmap</span>(</a>
+<a class="sourceLine" id="cb33-9" data-line-number="9">  heat.data,</a>
+<a class="sourceLine" id="cb33-10" data-line-number="10">  <span class="dt">margin =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb33-11" data-line-number="11">  <span class="dt">cexCol =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb33-12" data-line-number="12">  <span class="dt">lhei =</span> <span class="kw">c</span>(<span class="fl">0.8</span>, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb33-13" data-line-number="13">  <span class="dt">cexRow =</span> <span class="fl">0.6</span></a>
+<a class="sourceLine" id="cb33-14" data-line-number="14">)</a></code></pre></div>
+<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-27-1.png" width="576" /></p>
+</div>
+<div id="mean-difference-plot" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Mean-difference plot</h3>
+<p>A mean-difference plot or MD-plot is a plot that can be used to show the fold-change differences against the average expression values of all genes used in the analysis. This can be generated easily using the <em>plotMD</em> function within the <strong>limma</strong> package.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">plotMD</span>(fit.contr, <span class="dt">column =</span> <span class="dv">1</span>,<span class="dt">status =</span> dt,<span class="dt">cex=</span><span class="fl">0.8</span>)</a></code></pre></div>
+<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-28-1.png" width="576" /></p>
+</div>
+<div id="volcano-plot" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> Volcano plot</h3>
+<p>A volcano plot shows the relationship between the log fold-change on the x-axis and a measure of statistical significance on the y-axis. The measure of significance can be -log(p-value) or the B-statistics. Here, we will use the <em>volcanoplot</em> function within the <strong>limma</strong> package.In the volcano plot below, differentially expressed genes are highlighted with red for up-regulated and blue for down-regulated genes.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co">#highlight de genes</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">col&lt;-<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>)[<span class="kw">factor</span>(dt[,<span class="st">&quot;CISvsWT&quot;</span>])]</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="kw">volcanoplot</span>(fit.contr,<span class="dt">col=</span>col)</a></code></pre></div>
+<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-29-1.png" width="480" /></p>
+</div>
+</div>
+<div id="gene-ontology-go-and-kegg-enrichment-analysis" class="section level2">
+<h2><span class="header-section-number">6.2</span> Gene Ontology (GO) and KEGG enrichment analysis</h2>
+<div id="gene-ontology" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Gene Ontology</h3>
+<p>Gene ontology (<a href="http://www.geneontology.org/" class="uri">http://www.geneontology.org/</a>) provides a controlled vocabulary for describing biological processes (BP ontology), molecular functions (MF ontology) and cellular components (CC ontology).</p>
+<p>The GO ontologies themselves are organism-independent; terms are associated with genes for a specific organism through direct experimentation or through sequence homology with another organism and its GO annotation.</p>
+<p>Terms are related to other terms through parent-child relationships in a directed acylic graph.</p>
+<p>You can use enrichment analysis as another way of drawing conclusions from your set of differentially expressed genes.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">enrich.pvalue&lt;-<span class="fl">0.00001</span></a></code></pre></div>
+<p>Here, we use the <em>goana</em> function within the <strong>limma</strong> package to test for enrichment of differentially expressed genes between the CIS vs WT. Note that the <em>p-values</em> returned by <em>goana</em> are <strong>unadjusted for multiple testing</strong>. It is therfore, advisable that if the results are to be published, only terms with very small p-values should be included. For instance, in the example below, only terms with a p-value &lt; 10^{-5} are retained.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="cf">if</span>(<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;GO.db&quot;</span>))</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">  BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;GO.db&quot;</span>)</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">library</span>(GO.db)</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">go.rst&lt;-<span class="kw">goana</span>(fit.contr,<span class="dt">coef =</span> <span class="dv">1</span>,<span class="dt">FDR =</span> <span class="fl">0.05</span>,<span class="dt">species=</span><span class="st">&quot;Mm&quot;</span>)</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="co">#order enriched terms by p-value</span></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">go.rst&lt;-go.rst[<span class="kw">with</span>(go.rst,P.Up<span class="op">&lt;</span>enrich.pvalue<span class="op">|</span>P.Down<span class="op">&lt;</span>enrich.pvalue),]</a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">go.rst&lt;-<span class="kw">topGO</span>(go.rst,<span class="dt">number =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb37-8" data-line-number="8"><span class="kw">topGO</span>(go.rst)</a></code></pre></div>
+<pre><code>##                                                              Term Ont    N  Up
+## GO:0050794                         regulation of cellular process  BP 6084 593
+## GO:0050789                       regulation of biological process  BP 6343 628
+## GO:0065007                                  biological regulation  BP 6647 675
+## GO:0048522                positive regulation of cellular process  BP 3439 335
+## GO:0005515                                        protein binding  MF 5634 584
+## GO:0048518              positive regulation of biological process  BP 3697 368
+## GO:0060255          regulation of macromolecule metabolic process  BP 3917 361
+## GO:0032501                       multicellular organismal process  BP 3570 335
+## GO:0048856                       anatomical structure development  BP 3061 287
+## GO:0019222                        regulation of metabolic process  BP 4221 404
+## GO:0005488                                                binding  MF 7993 876
+## GO:0032502                                  developmental process  BP 3334 319
+## GO:0031323               regulation of cellular metabolic process  BP 3857 361
+## GO:0048731                                     system development  BP 2484 228
+## GO:0007275                     multicellular organism development  BP 2804 261
+## GO:0016043                        cellular component organization  BP 3824 409
+## GO:0006996                                 organelle organization  BP 2732 266
+## GO:0010604 positive regulation of macromolecule metabolic process  BP 2214 224
+## GO:0051171      regulation of nitrogen compound metabolic process  BP 3590 321
+## GO:0080090                regulation of primary metabolic process  BP 3689 332
+##            Down P.Up  P.Down
+## GO:0050794 1177    1 5.2e-68
+## GO:0050789 1206    1 6.1e-66
+## GO:0065007 1233    1 6.5e-61
+## GO:0048522  746    1 4.5e-50
+## GO:0005515 1069    1 6.7e-50
+## GO:0048518  779    1 1.6e-47
+## GO:0060255  808    1 7.0e-46
+## GO:0032501  754    1 1.0e-45
+## GO:0048856  673    1 1.3e-45
+## GO:0019222  853    1 1.4e-45
+## GO:0005488 1360    1 1.5e-45
+## GO:0032502  716    1 2.1e-45
+## GO:0031323  796    1 6.2e-45
+## GO:0048731  575    1 1.4e-44
+## GO:0007275  628    1 1.7e-44
+## GO:0016043  789    1 2.7e-44
+## GO:0006996  607    1 2.5e-41
+## GO:0010604  518    1 1.4e-40
+## GO:0051171  738    1 1.8e-39
+## GO:0080090  753    1 2.2e-39</code></pre>
+<p>A simple way to visualise the enrichment results is through a bar plot as shown below which shows the top 10 enriched terms</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">top.up &lt;-<span class="st"> </span><span class="kw">head</span>(go.rst[<span class="kw">order</span>(go.rst<span class="op">$</span>P.Up, <span class="dt">decreasing =</span> F), ], <span class="dt">n =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">top.down &lt;-<span class="st"> </span><span class="kw">head</span>(go.rst[<span class="kw">order</span>(go.rst<span class="op">$</span>P.Down, <span class="dt">decreasing =</span> F), ], <span class="dt">n =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">bar.data &lt;-</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="st">  </span><span class="kw">rbind</span>(</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">    <span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">      <span class="dt">Term =</span> top.up<span class="op">$</span>Term,</a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">      <span class="dt">P.value =</span> top.up<span class="op">$</span>P.Up,</a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">      <span class="dt">Dir =</span> <span class="st">&quot;up&quot;</span></a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">    ),</a>
+<a class="sourceLine" id="cb39-10" data-line-number="10">    <span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">      <span class="dt">Term =</span> top.down<span class="op">$</span>Term,</a>
+<a class="sourceLine" id="cb39-12" data-line-number="12">      <span class="dt">P.value =</span> top.down<span class="op">$</span>P.Down,</a>
+<a class="sourceLine" id="cb39-13" data-line-number="13">      <span class="dt">Dir =</span> <span class="st">&quot;down&quot;</span></a>
+<a class="sourceLine" id="cb39-14" data-line-number="14">    )</a>
+<a class="sourceLine" id="cb39-15" data-line-number="15">  )</a>
+<a class="sourceLine" id="cb39-16" data-line-number="16">bar.data &lt;-<span class="st"> </span>bar.data[<span class="kw">order</span>(bar.data<span class="op">$</span>P.value, <span class="dt">decreasing =</span> F), ]</a>
+<a class="sourceLine" id="cb39-17" data-line-number="17"><span class="kw">par</span>(<span class="dt">mai =</span> <span class="kw">c</span>(<span class="fl">0.8</span>, <span class="dv">2</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb39-18" data-line-number="18">bb&lt;-<span class="kw">barplot</span>(</a>
+<a class="sourceLine" id="cb39-19" data-line-number="19">  <span class="op">-</span><span class="kw">log10</span>(bar.data<span class="op">$</span>P.value),</a>
+<a class="sourceLine" id="cb39-20" data-line-number="20">  <span class="dt">horiz =</span> T,</a>
+<a class="sourceLine" id="cb39-21" data-line-number="21">  <span class="dt">xlab =</span> <span class="st">&quot; -log10(p-value)&quot;</span>,</a>
+<a class="sourceLine" id="cb39-22" data-line-number="22">  <span class="dt">cex.names =</span> <span class="fl">0.5</span>,</a>
+<a class="sourceLine" id="cb39-23" data-line-number="23">  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>)[<span class="kw">factor</span>(bar.data<span class="op">$</span>Dir)]</a>
+<a class="sourceLine" id="cb39-24" data-line-number="24">)</a>
+<a class="sourceLine" id="cb39-25" data-line-number="25"><span class="kw">axis</span>(<span class="dv">2</span>,<span class="dt">line =</span> <span class="fl">-0.8</span>,<span class="dt">at=</span>bb,<span class="dt">labels =</span> bar.data<span class="op">$</span>Term,<span class="dt">tick =</span> F,<span class="dt">las=</span><span class="dv">2</span>,<span class="dt">cex.axis=</span><span class="fl">0.5</span>)</a></code></pre></div>
+<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><strong>Add gene information (optional)</strong></p>
+<p>Sometimes you may want to know what genes are enriched in each of the terms, this section allows you to add gene details.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">library</span>(org.Mm.eg.db)</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">go.EntrezID &lt;-<span class="st"> </span><span class="kw">as.list</span>(org.Mm.egGO2ALLEGS)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">go.rst &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(go.rst, <span class="dt">var =</span> <span class="st">&quot;GO.ID&quot;</span>)</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="co">#Add gene details</span></a>
+<a class="sourceLine" id="cb40-6" data-line-number="6">go.rst<span class="op">$</span>Genes.Up &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(go.rst<span class="op">$</span>GO.ID, <span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb40-7" data-line-number="7">  xx &lt;-<span class="st"> </span>go.EntrezID[[x]]</a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">  <span class="cf">if</span> (<span class="kw">is.null</span>(xx) <span class="op">|</span></a>
+<a class="sourceLine" id="cb40-9" data-line-number="9"><span class="st">      </span><span class="kw">with</span>(go.rst[go.rst<span class="op">$</span>GO.ID <span class="op">==</span><span class="st"> </span>x,], Up <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span></a>
+<a class="sourceLine" id="cb40-10" data-line-number="10"><span class="st">           </span>P.Up <span class="op">&gt;</span><span class="st"> </span>enrich.pvalue))</a>
+<a class="sourceLine" id="cb40-11" data-line-number="11">    <span class="kw">return</span>(<span class="st">&quot;-&quot;</span>)</a>
+<a class="sourceLine" id="cb40-12" data-line-number="12">  x &lt;-<span class="st"> </span><span class="kw">rownames</span>(dt[<span class="kw">rownames</span>(dt) <span class="op">%in%</span><span class="st"> </span>xx <span class="op">&amp;</span><span class="st"> </span>dt <span class="op">==</span><span class="st"> </span><span class="dv">1</span>,])</a>
+<a class="sourceLine" id="cb40-13" data-line-number="13">  x &lt;-</a>
+<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="st">    </span><span class="kw">paste0</span>(<span class="kw">with</span>(fit.contr<span class="op">$</span>genes, Symbol[EntrezID <span class="op">%in%</span><span class="st"> </span>xx]), <span class="dt">collapse =</span> <span class="st">&quot;|&quot;</span>)</a>
+<a class="sourceLine" id="cb40-15" data-line-number="15">  <span class="kw">return</span>(x)</a>
+<a class="sourceLine" id="cb40-16" data-line-number="16">}))</a>
+<a class="sourceLine" id="cb40-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb40-18" data-line-number="18">go.rst<span class="op">$</span>Genes.Down &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(go.rst<span class="op">$</span>GO.ID, <span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb40-19" data-line-number="19">  xx &lt;-<span class="st"> </span>go.EntrezID[[x]]</a>
+<a class="sourceLine" id="cb40-20" data-line-number="20">  <span class="cf">if</span> (<span class="kw">is.null</span>(xx) <span class="op">|</span></a>
+<a class="sourceLine" id="cb40-21" data-line-number="21"><span class="st">      </span><span class="kw">with</span>(go.rst[go.rst<span class="op">$</span>GO.ID <span class="op">==</span><span class="st"> </span>x,], Down <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span></a>
+<a class="sourceLine" id="cb40-22" data-line-number="22"><span class="st">           </span>P.Down <span class="op">&gt;</span><span class="st"> </span>enrich.pvalue))</a>
+<a class="sourceLine" id="cb40-23" data-line-number="23">    <span class="kw">return</span>(<span class="st">&quot;-&quot;</span>)</a>
+<a class="sourceLine" id="cb40-24" data-line-number="24">  x &lt;-<span class="st"> </span><span class="kw">rownames</span>(dt[<span class="kw">rownames</span>(dt) <span class="op">%in%</span><span class="st"> </span>xx <span class="op">&amp;</span><span class="st"> </span>dt <span class="op">==</span><span class="st"> </span><span class="dv">-1</span>,])</a>
+<a class="sourceLine" id="cb40-25" data-line-number="25">  x &lt;-</a>
+<a class="sourceLine" id="cb40-26" data-line-number="26"><span class="st">    </span><span class="kw">paste0</span>(<span class="kw">with</span>(fit.contr<span class="op">$</span>genes, Symbol[EntrezID <span class="op">%in%</span><span class="st"> </span>xx]), <span class="dt">collapse =</span> <span class="st">&quot;|&quot;</span>)</a>
+<a class="sourceLine" id="cb40-27" data-line-number="27">  <span class="kw">return</span>(x)</a>
+<a class="sourceLine" id="cb40-28" data-line-number="28">}))</a></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="more-details-on-the-protocol.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-RNA-seq-protocol.pdf", "bookdown-RNA-seq-protocol.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Prerequisites | An RNA-seq Data Analysis Protocol</title>
-  <meta name="description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Prerequisites | An RNA-seq Data Analysis Protocol" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta property="og:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="2 Prerequisites | An RNA-seq Data Analysis Protocol" />
   
-  <meta name="twitter:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="twitter:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   
 
-<meta name="author" content="Wei Shi" />
+<meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-01-18" />
+<meta name="date" content="2021-02-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,8 +50,6 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -155,6 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sample-clustering"><i class="fa fa-check"></i><b>5.7</b> Sample clustering</a></li>
 <li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -184,11 +192,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>RNA-seq data</strong><br />
 An RNA-seq dataset generated in a published study <span class="citation">(Delconte et al. <a href="#ref-delconte2016cis">2016</a>)</span> is used as an example dataset in this protocol.<br />
 </p>
-<!-- Two samples (wild-type and Cish-/- natural killer cells) are included in this dataset and each sample has two biological replicates. These data were already deposited in the Gene Expression Omnibus database (GSE79409). However for the convenience of this analysis,FASTQ files of the raw RNA-seq data were also saved in the ‘Workshop_RNAseq’ directory on Z drive (All Staff Share).  -->
-<!-- A text file called "Targets.txt", which includes relevant sample information, can also be found in this directory. -->
+<p>Two samples (wild-type and Cish-/- natural killer cells) are included in this dataset and each sample has two biological replicates. These data were already deposited in the Gene Expression Omnibus database (GSE79409). However for the convenience of this analysis,FASTQ files of the raw RNA-seq data were also saved in the ‘Workshop_RNAseq’ directory on Z drive.</p>
+<p>A text file called “Targets.txt”, which includes relevant sample information, can also be found in this directory.</p>
 <p><strong>Reference genome data</strong><br />
 </p>
-<!-- A FASTA-format file including all chromosomal sequences of the GRCm38/mm10 genome was also saved in ‘Workshop_RNAseq’ directory on Z drive. -->
+<p>A FASTA-format file including all chromosomal sequences of the GRCm38/mm10 genome was also saved in ‘Workshop_RNAseq’ directory on Z drive.</p>
 </div>
 <div id="software" class="section level2">
 <h2><span class="header-section-number">2.2</span> SOFTWARE</h2>
@@ -204,8 +212,11 @@ An RNA-seq dataset generated in a published study <span class="citation">(Delcon
 <p>Consult the R Project website for the installation of R (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) <span class="citation">(R Core Team <a href="#ref-R-base">2020</a>)</span>. Make sure the latest release version of R is downloaded and installed. After R is installed, launch R and type the following commands to install <em>Rsubread</em>, <em>limma</em>, <em>edgeR</em>, <em>org.Mm.eg.db</em> and <em>statmod</em>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="kw">c</span>(<span class="st">&quot;Rsubread&quot;</span>,<span class="st">&quot;limma&quot;</span>,<span class="st">&quot;edgeR&quot;</span>,<span class="st">&quot;org.Mm.eg.db&quot;</span>))</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">install.packages</span>(<span class="st">&quot;statmod&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="kw">c</span>(<span class="st">&quot;Rsubread&quot;</span>,<span class="st">&quot;limma&quot;</span>,<span class="st">&quot;edgeR&quot;</span>,<span class="st">&quot;org.Mm.eg.db&quot;</span>),<span class="dt">update =</span> T)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="cf">if</span>(<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;statmod&quot;</span>,<span class="dt">quietly=</span><span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="kw">install.packages</span>(<span class="st">&quot;statmod&quot;</span>)</a></code></pre></div>
 <p><strong>Alternatively, you may use <a href="https://rstudio.com/">Rstudio</a> to run this protocol.</strong></p>
 
 </div>

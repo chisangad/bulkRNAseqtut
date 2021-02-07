@@ -5,33 +5,33 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>References | An RNA-seq Data Analysis Protocol</title>
-  <meta name="description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="References | An RNA-seq Data Analysis Protocol" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta property="og:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="References | An RNA-seq Data Analysis Protocol" />
   
-  <meta name="twitter:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="twitter:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   
 
-<meta name="author" content="Wei Shi" />
+<meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-01-18" />
+<meta name="date" content="2021-02-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="more-details-on-the-protocol.html"/>
+<link rel="prev" href="downstream-analysis.html"/>
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +50,6 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -155,6 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sample-clustering"><i class="fa fa-check"></i><b>5.7</b> Sample clustering</a></li>
 <li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -181,6 +189,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="refs" class="references">
 <div>
+<p>Delconte, Rebecca B, Tatiana B Kolesnik, Laura F Dagley, Jai Rautela, Wei Shi, Eva M Putz, Kimberley Stannard, et al. 2016. “CIS Is a Potent Checkpoint in Nk Cell–Mediated Tumor Immunity.” <em>Nature Immunology</em> 17 (7). Nature Publishing Group: 816–24.</p>
+</div>
+<div>
 <p>Law, Charity W, Yunshun Chen, Wei Shi, and Gordon K Smyth. 2014. “Voom: Precision Weights Unlock Linear Model Analysis Tools for Rna-Seq Read Counts.” <em>Genome Biology</em> 15 (2). BioMed Central: R29.</p>
 </div>
 <div>
@@ -202,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Ritchie, Matthew E, Belinda Phipson, Di Wu, Yifang Hu, Charity W Law, Wei Shi, and Gordon K Smyth. 2015. “limma Powers Differential Expression Analyses for RNA-Sequencing and Microarray Studies.” <em>Nucleic Acids Research</em> 43 (7): e47. <a href="https://doi.org/10.1093/nar/gkv007">https://doi.org/10.1093/nar/gkv007</a>.</p>
 </div>
 <div>
-<p>Shi, Wei, Yang Liao, and Gordon K Smyth with contributions from Jenny Dai. 2020. <em>Rsubread: Subread Sequence Alignment and Counting for R</em>. <a href="http://bioconductor.org/packages/Rsubread">http://bioconductor.org/packages/Rsubread</a>.</p>
+<p>Shi, Wei, Yang Liao, and Gordon K Smyth with contributions from Jenny Dai. 2020. <em>Rsubread: Mapping, Quantification and Variant Analysis of Sequencing Data</em>. <a href="http://bioconductor.org/packages/Rsubread">http://bioconductor.org/packages/Rsubread</a>.</p>
 </div>
 <div>
 <p>Smyth, Gordon, Yifang Hu, Matthew Ritchie, Jeremy Silver, James Wettenhall, Davis McCarthy, Di Wu, et al. 2020. <em>Limma: Linear Models for Microarray Data</em>. <a href="http://bioinf.wehi.edu.au/limma">http://bioinf.wehi.edu.au/limma</a>.</p>
@@ -217,7 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="more-details-on-the-protocol.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="downstream-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

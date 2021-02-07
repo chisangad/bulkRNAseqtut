@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 RNA-SEQ analysis protocol | An RNA-seq Data Analysis Protocol</title>
-  <meta name="description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 RNA-SEQ analysis protocol | An RNA-seq Data Analysis Protocol" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta property="og:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="4 RNA-SEQ analysis protocol | An RNA-seq Data Analysis Protocol" />
   
-  <meta name="twitter:description" content="This is a protocol for running a Bulk RNA-seq analysis from raw-data to counts" />
+  <meta name="twitter:description" content="This protocol provides an overview of the steps involved in running an analysis of Bulk RNA-seq short reads from raw-data to counts" />
   
 
-<meta name="author" content="Wei Shi" />
+<meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-01-18" />
+<meta name="date" content="2021-02-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,8 +50,6 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -155,6 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#sample-clustering"><i class="fa fa-check"></i><b>5.7</b> Sample clustering</a></li>
 <li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -180,23 +188,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">4</span> RNA-SEQ analysis protocol</h1>
 <p><em>Please note that your analysis results might be slightly different from those shown in this protocol due to software version differences.</em></p>
 <p>We first change the working directory to the Workshop folder</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">setwd</span>(<span class="st">&quot;Workshop_RNAseq/&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">setwd</span>(<span class="st">&quot;Workshop_RNAseq/&quot;</span>)</a></code></pre></div>
 <p><strong>Build index for a reference genome</strong></p>
 <p><strong>Step 1</strong><br />
 Start an R session and build an index for the reference genome <em>GRCm38/mm10</em>. The created index files will be saved to the current working directory. This index only needs to be built once and it can be reused in future RNA-seq data analyses. <strong>TIMING ~40 mins</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(Rsubread)</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">buildindex</span>(<span class="st">&quot;mm10_reference&quot;</span>, <span class="st">&quot;mm10.fa&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(Rsubread)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">buildindex</span>(<span class="st">&quot;mm10_reference&quot;</span>, <span class="st">&quot;mm10.fa&quot;</span>)</a></code></pre></div>
 <p>If you build an index on a laptop, it is recommended to build a split index. The amount of requested memory should be roughly half of the total memory available on your laptop. For example, if your laptop has 8GB memory, you may use the following command to build a split index with 4GB memory usage. <strong>TIMING ~90 mins</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">buildindex</span>(<span class="st">&quot;mm10_reference&quot;</span>,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">           <span class="st">&quot;mm10.fa&quot;</span>,</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">           <span class="dt">indexSplit =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">           <span class="dt">memory =</span> <span class="dv">4000</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">buildindex</span>(<span class="st">&quot;mm10_reference&quot;</span>,</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">           <span class="st">&quot;mm10.fa&quot;</span>,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">           <span class="dt">indexSplit =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">           <span class="dt">memory =</span> <span class="dv">4000</span>)</a></code></pre></div>
 <p><strong>Create sample-related information and evaluate quality of sequencing TIMING ~ 3 mins</strong></p>
 <p><strong>Step 2</strong><br />
-Create a tab-delimited text file that contains sample-related information such as FASTQ file names, sample names and cell types. For convenience, a file called “Targets.txt” has already been created for this dataset and we read in this file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(limma)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">targets &lt;-<span class="st"> </span><span class="kw">readTargets</span>(<span class="st">&quot;Targets.txt&quot;</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">targets</a></code></pre></div>
+</p>
+<p>Create a tab-delimited text file that contains sample-related information such as FASTQ file names, sample names and cell types. For convenience, a file called “Targets.txt” has already been created for this dataset and we read in this file:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(limma)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">targets &lt;-<span class="st"> </span><span class="kw">readTargets</span>(<span class="st">&quot;Targets.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">targets</a></code></pre></div>
 <pre><code>##                                   Library   Sample CellType
 ## 1 CIS_1_C6AG6ANXX_ATCACG_L008_R1.fastq.gz CIS_rep1      CIS
 ## 2 CIS_2_C6AG6ANXX_CGATGT_L008_R1.fastq.gz CIS_rep2      CIS
@@ -204,92 +213,93 @@ Create a tab-delimited text file that contains sample-related information such a
 ## 4  WT_4_C6AG6ANXX_TGACCA_L008_R1.fastq.gz  WT_rep2       WT</code></pre>
 <p><strong>Step 3</strong><br />
 Choose one of the libraries and examine the Phred quality scores of read bases at each read position. Boxplots of Phred scores are generated for each base position.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">qs &lt;-<span class="st"> </span><span class="kw">qualityScores</span>(targets<span class="op">$</span>Library[<span class="dv">1</span>], <span class="dt">offset =</span> <span class="dv">33</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">boxplot</span>(qs,</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">        <span class="dt">xlab =</span> <span class="st">&quot;Base position&quot;</span>,</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">        <span class="dt">ylab =</span> <span class="st">&quot;Phred score&quot;</span>,</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">        <span class="dt">cex =</span> <span class="fl">0.1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">qs &lt;-<span class="st"> </span><span class="kw">qualityScores</span>(targets<span class="op">$</span>Library[<span class="dv">1</span>], <span class="dt">offset =</span> <span class="dv">33</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">boxplot</span>(qs,</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">        <span class="dt">xlab =</span> <span class="st">&quot;Base position&quot;</span>,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Phred score&quot;</span>,</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">        <span class="dt">cex =</span> <span class="fl">0.1</span>)</a></code></pre></div>
+<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
 <p><strong>Align and count reads TIMING ~6 min per library</strong></p>
 <p><strong>Step 4</strong><br />
 Map sequence reads to mouse genome GRCm38/mm10. It is recommended to provide gene annotation to the read mapping. Mapped reads are saved to BAM files and a mapping summary is returned to R after read mapping is completed.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">align.outfiles &lt;-<span class="st"> </span><span class="kw">paste</span>(targets<span class="op">$</span>Sample, <span class="st">&quot;bam&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">align.summary &lt;-</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">align</span>(</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">    <span class="st">&quot;mm10_reference&quot;</span>,</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">    targets<span class="op">$</span>Library,</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="dt">output_file =</span> align.outfiles,</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">    <span class="dt">nthreads =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">    <span class="dt">useAnnotation =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">    <span class="dt">annot.inbuilt =</span> <span class="st">&quot;mm10&quot;</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">  )</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">align.summary</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">align.outfiles &lt;-<span class="st"> </span><span class="kw">paste</span>(targets<span class="op">$</span>Sample, <span class="st">&quot;bam&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">align.summary &lt;-</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span><span class="kw">align</span>(</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">    <span class="st">&quot;mm10_reference&quot;</span>,</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">    targets<span class="op">$</span>Library,</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">    <span class="dt">output_file =</span> align.outfiles,</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">    <span class="dt">nthreads =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">    <span class="dt">useAnnotation =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">    <span class="dt">annot.inbuilt =</span> <span class="st">&quot;mm10&quot;</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">  )</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">align.summary</a></code></pre></div>
 <p><strong>Step 5</strong><br />
 Assign reads to overlapping genes and generate an R object that contains a count table, gene annotation and counting summary. The count table contains number of reads assigned to each gene in each library. The gene annotation includes Entrez gene identifier, chromosomal coordinates of gene exons and gene length (total number of non-overlapping exonic bases each gene has). The counting summary gives the number of successfully assigned reads in each library and also numbers of reads that failed to be assigned due to filtering. The ‘Status’ column in this summary includes a ‘Assigned’ category and also multiple ‘Unassigned’ categories corresponding to different read filters used in counting.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">counts.gene &lt;-<span class="st"> </span><span class="kw">featureCounts</span>(align.outfiles, <span class="st">&quot;mm10&quot;</span>, <span class="dt">nthreads =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">counts.gene<span class="op">$</span>stat</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">counts.gene &lt;-<span class="st"> </span><span class="kw">featureCounts</span>(align.outfiles, <span class="st">&quot;mm10&quot;</span>, <span class="dt">nthreads =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">counts.gene<span class="op">$</span>stat</a></code></pre></div>
 <p><strong>Save R data and switch from the UNIX server to a personal computer TIMING &lt; 1 min</strong></p>
 <p><strong>(Steps 6 and 7 can be skipped if you run the protocol using ‘RStudio (2672)’ or laptop only)</strong></p>
 <p><strong>Step 6 (optional)</strong><br />
 </p>
 <p>Save all generated R objects to a file and then copy the file to your personal computer.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">save.image</span>(<span class="st">&quot;Counts.rdata&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">save.image</span>(<span class="st">&quot;Counts.rdata&quot;</span>)</a></code></pre></div>
 <p><strong>Step 7 (optional)</strong><br />
 </p>
 <p>Launch R on your personal computer and load R objects from the copied file.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;Counts.rdata&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;Counts.rdata&quot;</span>)</a></code></pre></div>
 <p><strong>Perform differential expression analysis TIMING &lt; 1 min</strong></p>
 <p><strong>Step 8</strong><br />
 </p>
 <p>Load required libraries.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(limma)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">library</span>(edgeR)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">library</span>(statmod)</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="kw">suppressMessages</span>(<span class="kw">library</span>(org.Mm.eg.db))</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">library</span>(limma)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">library</span>(edgeR)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw">library</span>(statmod)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="kw">suppressMessages</span>(<span class="kw">library</span>(org.Mm.eg.db))</a></code></pre></div>
 <p><strong>Step 9</strong><br />
 </p>
 <p>Create a design matrix.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">ct &lt;-<span class="st"> </span><span class="kw">factor</span>(targets<span class="op">$</span>CellType)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>ct)</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="kw">colnames</span>(design) &lt;-<span class="st"> </span><span class="kw">levels</span>(ct)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">ct &lt;-<span class="st"> </span><span class="kw">factor</span>(targets<span class="op">$</span>CellType)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>ct)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">colnames</span>(design) &lt;-<span class="st"> </span><span class="kw">levels</span>(ct)</a></code></pre></div>
 <p><strong>Step 10</strong><br />
 </p>
 <p>Map Entrez gene identifiers to gene symbols and create an R object containing annotation data for each gene. The annotation data include Entrez gene identifier, gene symbol and gene length.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">tmp &lt;-<span class="st"> </span>org.Mm.egSYMBOL</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">entrez_symbol &lt;-<span class="st"> </span><span class="kw">as.list</span>(tmp[<span class="kw">mappedkeys</span>(tmp)])</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">entrez_symbol &lt;-<span class="st"> </span><span class="kw">sapply</span>(entrez_symbol, <span class="cf">function</span>(x)</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  x[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">genes &lt;-<span class="st"> </span>counts.gene<span class="op">$</span>annotation<span class="op">$</span>GeneID</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">m &lt;-<span class="st"> </span><span class="kw">match</span>(genes, <span class="kw">names</span>(entrez_symbol))</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">genes &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">  <span class="dt">EntrezID =</span> genes,</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">  <span class="dt">Symbol =</span> entrez_symbol[m],</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">  <span class="dt">Length =</span> counts.gene<span class="op">$</span>annotation<span class="op">$</span>Length,</a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">tmp &lt;-<span class="st"> </span>org.Mm.egSYMBOL</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">entrez_symbol &lt;-<span class="st"> </span><span class="kw">as.list</span>(tmp[<span class="kw">mappedkeys</span>(tmp)])</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">entrez_symbol &lt;-<span class="st"> </span><span class="kw">sapply</span>(entrez_symbol, <span class="cf">function</span>(x)</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">  x[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">genes &lt;-<span class="st"> </span>counts.gene<span class="op">$</span>annotation<span class="op">$</span>GeneID</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">m &lt;-<span class="st"> </span><span class="kw">match</span>(genes, <span class="kw">names</span>(entrez_symbol))</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">genes &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">  <span class="dt">EntrezID =</span> genes,</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">  <span class="dt">Symbol =</span> entrez_symbol[m],</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">  <span class="dt">Length =</span> counts.gene<span class="op">$</span>annotation<span class="op">$</span>Length,</a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">)</a></code></pre></div>
 <p><strong>Step 11</strong><br />
 </p>
 <p>Remove from analysis those genes that did not express, or expressed at a very low level, in all cell types. Here we require a gene to have a CPM value greater than 0.5 in at least two libraries to be included in the subsequent analysis. The reason we require at least two libraries is because there are two biological replicates generated for each sample in this dataset.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">keep &lt;-<span class="st"> </span><span class="kw">rowSums</span>(<span class="kw">cpm</span>(counts.gene<span class="op">$</span>counts) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">sum</span>(keep)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">keep &lt;-<span class="st"> </span><span class="kw">rowSums</span>(<span class="kw">cpm</span>(counts.gene<span class="op">$</span>counts) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">sum</span>(keep)</a></code></pre></div>
 <pre><code>## [1] 11969</code></pre>
 <p><strong>Step 12</strong><br />
 Transform count data to log2-cpm, estimate the mean-variance relationship and compute observation-level weights. Log2-cpm expression values of genes are then normalized using the quantile method and converted to log2-rpkm (log2 reads per kilobases of exons per million reads) values.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">y &lt;-</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw">voom</span>(counts.gene<span class="op">$</span>counts[keep, ], design, <span class="dt">normalize.method =</span> <span class="st">&quot;quantile&quot;</span>)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">y<span class="op">$</span>genes &lt;-<span class="st"> </span>genes[keep, ]</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">y<span class="op">$</span>E &lt;-<span class="st"> </span>y<span class="op">$</span>E <span class="op">-</span><span class="st"> </span><span class="kw">log2</span>(y<span class="op">$</span>genes<span class="op">$</span>Length <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">y &lt;-</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">voom</span>(counts.gene<span class="op">$</span>counts[keep, ], design, <span class="dt">normalize.method =</span> <span class="st">&quot;quantile&quot;</span>)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">y<span class="op">$</span>genes &lt;-<span class="st"> </span>genes[keep, ]</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">y<span class="op">$</span>E &lt;-<span class="st"> </span>y<span class="op">$</span>E <span class="op">-</span><span class="st"> </span><span class="kw">log2</span>(y<span class="op">$</span>genes<span class="op">$</span>Length <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)</a></code></pre></div>
 <p><strong>Step 13</strong><br />
 Cluster samples via multidimensional scaling.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">plotMDS</span>(y, <span class="dt">labels=</span>targets<span class="op">$</span>CellType)</a></code></pre></div>
-<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">plotMDS</span>(y, <span class="dt">labels=</span>targets<span class="op">$</span>CellType)</a></code></pre></div>
+<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p><strong>Step 14</strong><br />
 </p>
 <p>Fit linear models to genes and perform statistical testing to discover differentially expressed genes. A contrast matrix is constructed to specify the comparisons between samples. The empirical Bayes moderated t-statistic is used to assess the differential expression of genes. A FDR (false discovery rate) cutoff is applied for calling differentially expressed genes. For this analysis, an FDR cutoff of 0.05 was applied (default cutoff value in decideTests()).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">lmFit</span>(y, design)</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">contr &lt;-<span class="st"> </span><span class="kw">makeContrasts</span>(<span class="dt">CISvsWT =</span> CIS <span class="op">-</span><span class="st"> </span>WT, <span class="dt">levels =</span> design)</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">fit.contr &lt;-<span class="st"> </span><span class="kw">eBayes</span>(<span class="kw">contrasts.fit</span>(fit, contr))</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">dt &lt;-<span class="st"> </span><span class="kw">decideTests</span>(fit.contr)</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="kw">summary</span>(dt)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">lmFit</span>(y, design)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">contr &lt;-<span class="st"> </span><span class="kw">makeContrasts</span>(<span class="dt">CISvsWT =</span> CIS <span class="op">-</span><span class="st"> </span>WT, <span class="dt">levels =</span> design)</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">fit.contr &lt;-<span class="st"> </span><span class="kw">eBayes</span>(<span class="kw">contrasts.fit</span>(fit, contr))</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">dt &lt;-<span class="st"> </span><span class="kw">decideTests</span>(fit.contr)</a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="kw">summary</span>(dt)</a></code></pre></div>
 <pre><code>##        CISvsWT
 ## Down      1662
 ## NotSig    8788
@@ -297,8 +307,8 @@ Cluster samples via multidimensional scaling.</p>
 <p><strong>Step 15</strong><br />
 </p>
 <p>Display top 10 most differentially expressed genes:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">options</span>(<span class="dt">digits=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">topTable</span>(fit.contr)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">options</span>(<span class="dt">digits=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">topTable</span>(fit.contr)</a></code></pre></div>
 <pre><code>##        EntrezID           Symbol Length logFC AveExpr   t P.Value adj.P.Val
 ## 12700     12700             Cish   2161  -3.5   4.705 -27 2.1e-08   7.4e-05
 ## 69368     69368            Wdfy1   4714  -2.6   1.999 -21 1.6e-07   3.1e-04
@@ -323,9 +333,11 @@ Cluster samples via multidimensional scaling.</p>
 ## 13508   5.6</code></pre>
 <p><strong>Step 16</strong><br />
 </p>
-<p>Save all differentially expressed genes to a file.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">de.genes &lt;-<span class="st"> </span><span class="kw">topTable</span>(fit.contr, <span class="dt">coef=</span><span class="st">&quot;CISvsWT&quot;</span>, <span class="dt">p.value=</span><span class="fl">0.05</span>, <span class="dt">n=</span><span class="ot">Inf</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">write.csv</span>(de.genes, <span class="dt">file=</span><span class="st">&quot;DE_genes.csv&quot;</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Save all differentially expressed genes to a file and all other results for further downstream analysis.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">de.genes &lt;-<span class="st"> </span><span class="kw">topTable</span>(fit.contr, <span class="dt">coef=</span><span class="st">&quot;CISvsWT&quot;</span>, <span class="dt">p.value=</span><span class="fl">0.05</span>, <span class="dt">n=</span><span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">write.csv</span>(de.genes, <span class="dt">file=</span><span class="st">&quot;DE_genes.csv&quot;</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co">#save differential expression results</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">save</span>(fit,fit.contr,dt,de.genes,y,<span class="dt">file =</span> <span class="st">&quot;DE_results.RData&quot;</span>)</a></code></pre></div>
 
 </div>
             </section>

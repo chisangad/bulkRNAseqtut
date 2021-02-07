@@ -16,3 +16,10 @@ read-counting
 gene-filtering
 sample-clustering
 statistical-testing-of-differential-expression
+downstream-analysis
+visualisations
+heatmaps
+mean-difference-plot
+volcano-plot
+gene-ontology-go-and-kegg-enrichment-analysis
+gene-ontology

@@ -199,11 +199,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="visualisations" class="section level2">
 <h2><span class="header-section-number">6.2</span> Visualisations</h2>
-<p>There are a number of ways in which you can visualise your RNA-seq data, while in this chapter we attempt to cover the most commonly ways of visualising your RNA-seq data, this is by no means exhaustive.</p>
+<p>There are a number of ways in which you can visualise the results from the differential expression analysis, while in this chapter we attempt to cover the most common ways of visualising the data, they are by no means exhaustive.</p>
 <div id="heatmaps" class="section level3">
 <h3><span class="header-section-number">6.2.1</span> Heatmaps</h3>
-<p>Heatmaps are a great way of demonstrating the differences in the expression patterns between different conditions in your dataset. Here we use the <em>coolmap</em> function within the <strong>limma</strong>
-package which is an extension of the <em>heatmap.2</em> function within the <strong>gplots</strong> package. The heatmap below shows the expression pattern of the top 100 differentially expressed genes between CIS vs WT.</p>
+<p>Heatmaps are a great way of demonstrating the differences in the expression patterns between different conditions in your dataset. Here we use the <em>coolmap</em> function within the <strong>limma</strong> package which is an extension of the <em>heatmap.2</em> function within the <strong>gplots</strong> package. The heatmap below shows the expression pattern of the top 100 differentially expressed genes between CIS vs WT.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">heat.data &lt;-<span class="st"> </span>y<span class="op">$</span>E[<span class="kw">head</span>(<span class="kw">rownames</span>(de.genes), <span class="dt">n =</span> <span class="dv">100</span>), ]</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw">colnames</span>(heat.data) &lt;-<span class="st"> </span>targets<span class="op">$</span>Sample</a>
 <a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw">rownames</span>(heat.data) &lt;-<span class="st"> </span><span class="kw">head</span>(de.genes<span class="op">$</span>Symbol, <span class="dt">n =</span> <span class="dv">100</span>)</a>

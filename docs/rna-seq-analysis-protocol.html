@@ -24,7 +24,7 @@
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-02-08" />
+<meta name="date" content="2021-02-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -154,13 +154,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
-<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
-<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
-<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
-<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#load-previous-results"><i class="fa fa-check"></i><b>6.1</b> Load previous results</a></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.2</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.2.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.2.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.2.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.2.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.2.3</b> Volcano plot</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+<li class="chapter" data-level="6.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#pathway-analysis"><i class="fa fa-check"></i><b>6.3</b> Pathway Analysis</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-enrichment"><i class="fa fa-check"></i><b>6.3.1</b> Gene Ontology enrichment</a></li>
+<li class="chapter" data-level="6.3.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#kegg-pathway-enrichment"><i class="fa fa-check"></i><b>6.3.2</b> KEGG pathway enrichment</a></li>
+<li class="chapter" data-level="6.3.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-set-enrichment-analysis"><i class="fa fa-check"></i><b>6.3.3</b> Gene Set Enrichment Analysis</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -218,7 +221,12 @@ Choose one of the libraries and examine the Phred quality scores of read bases a
 <a class="sourceLine" id="cb13-2" data-line-number="2">        <span class="dt">xlab =</span> <span class="st">&quot;Base position&quot;</span>,</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Phred score&quot;</span>,</a>
 <a class="sourceLine" id="cb13-4" data-line-number="4">        <span class="dt">cex =</span> <span class="fl">0.1</span>)</a></code></pre></div>
-<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
+<div class="figure" style="text-align: center"><span id="fig:figqs"></span>
+<img src="bookdown-RNA-seq-protocol_files/figure-html/figqs-1.png" alt="Distribution of Phred quality scores of read bases at each base position of the reads" width="480" />
+<p class="caption">
+Figure 4.1: Distribution of Phred quality scores of read bases at each base position of the reads
+</p>
+</div>
 <p><strong>Align and count reads TIMING ~6 min per library</strong></p>
 <p><strong>Step 4</strong><br />
 Map sequence reads to mouse genome GRCm38/mm10. It is recommended to provide gene annotation to the read mapping. Mapped reads are saved to BAM files and a mapping summary is returned to R after read mapping is completed.</p>
@@ -291,7 +299,12 @@ Transform count data to log2-cpm, estimate the mean-variance relationship and co
 <p><strong>Step 13</strong><br />
 Cluster samples via multidimensional scaling.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">plotMDS</span>(y, <span class="dt">labels=</span>targets<span class="op">$</span>CellType)</a></code></pre></div>
-<p><img src="bookdown-RNA-seq-protocol_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="figure" style="text-align: center"><span id="fig:figmds"></span>
+<img src="bookdown-RNA-seq-protocol_files/figure-html/figmds-1.png" alt="Sample clustering. Distances between samples represent leading log2-fold-changes." width="672" />
+<p class="caption">
+Figure 4.2: Sample clustering. Distances between samples represent leading log2-fold-changes.
+</p>
+</div>
 <p><strong>Step 14</strong><br />
 </p>
 <p>Fit linear models to genes and perform statistical testing to discover differentially expressed genes. A contrast matrix is constructed to specify the comparisons between samples. The empirical Bayes moderated t-statistic is used to assess the differential expression of genes. A FDR (false discovery rate) cutoff is applied for calling differentially expressed genes. For this analysis, an FDR cutoff of 0.05 was applied (default cutoff value in decideTests()).</p>
@@ -336,8 +349,9 @@ Cluster samples via multidimensional scaling.</p>
 <p>Save all differentially expressed genes to a file and all other results for further downstream analysis.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">de.genes &lt;-<span class="st"> </span><span class="kw">topTable</span>(fit.contr, <span class="dt">coef=</span><span class="st">&quot;CISvsWT&quot;</span>, <span class="dt">p.value=</span><span class="fl">0.05</span>, <span class="dt">n=</span><span class="ot">Inf</span>)</a>
 <a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">write.csv</span>(de.genes, <span class="dt">file=</span><span class="st">&quot;DE_genes.csv&quot;</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Save all the results to be used later.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co">#save differential expression results</span></a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">save</span>(fit,fit.contr,dt,de.genes,y,<span class="dt">file =</span> <span class="st">&quot;DE_results.RData&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">save.image</span>(<span class="st">&quot;Counts2.RData&quot;</span>)</a></code></pre></div>
 
 </div>
             </section>

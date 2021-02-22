@@ -118,7 +118,7 @@
 
 \title{An RNA-seq Data Analysis Protocol}
 \author{David Chisanga and Wei Shi}
-\date{2021-02-08}
+\date{2021-02-22}
 
 \begin{document}
 \maketitle
@@ -139,7 +139,16 @@ This tutorial describes a RNA-seq analysis protocol that can be used to analyse 
 Discovering differentially expressed genes is one of the most important applications of RNA sequenicng technologies. This RNA-seq analysis protocol provides step-by-step procedures for a successful analysis of an RNA-seq dataset. The protocol can be applied to RNA-seq data generated
 from any species that has a reference genome and an annotation of genes and it can be applied to both small and large RNA-seq experiments.
 
-This protocol comprises three major steps including read mapping, read counting and statistical testing (Fig. 1). Read mapping and counting are performed using Rsubread package \citep{Rsubread2019} and statistical testing is carried out using limma package \citep{limma2015}.
+This protocol comprises three major steps including read mapping, read counting and statistical testing (Figure \ref{fig:fig1}). Read mapping and counting are performed using Rsubread package \citep{Rsubread2019} and statistical testing is carried out using limma package \citep{limma2015}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=9.75in]{Fig1} 
+
+}
+
+\caption{Overview of the RNA-seq analysis protocol. The three boxes enclosed by dashed lines represent the three major components of the protocol. Each rectangle represents an R function and each rounded rectangle denotes data that are input to or output from a funtion}\label{fig:fig1}
+\end{figure}
 
 \textbf{Read mapping.}\\
 Read mapping is the first step in an RNA-seq analysis. In this step, an index for the reference genome will be first built using \emph{buildindex()} function and then reads will be aligned to the genome using the \emph{align()} function \citep{Rsubread2019, liao2013subread}. Index building is a one-off operation. The built index can be reused in future RNA-seq analyses.
@@ -338,7 +347,14 @@ Choose one of the libraries and examine the Phred quality scores of read bases a
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-12-1.pdf}
+\begin{figure}
+
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/figqs-1} 
+
+}
+
+\caption{Distribution of Phred quality scores of read bases at each base position of the reads}\label{fig:figqs}
+\end{figure}
 
 \textbf{Align and count reads TIMING \textasciitilde{}6 min per library}
 
@@ -479,7 +495,14 @@ Cluster samples via multidimensional scaling.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-22-1.pdf}
+\begin{figure}
+
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/figmds-1} 
+
+}
+
+\caption{Sample clustering. Distances between samples represent leading log2-fold-changes.}\label{fig:figmds}
+\end{figure}
 
 \textbf{Step 14}\\
 
@@ -549,10 +572,12 @@ Save all differentially expressed genes to a file and all other results for furt
 \end{Highlighting}
 \end{Shaded}
 
+Save all the results to be used later.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{#save differential expression results}
-\KeywordTok{save}\NormalTok{(fit,fit.contr,dt,de.genes,y,}\DataTypeTok{file =} \StringTok{"DE_results.RData"}\NormalTok{)}
+\KeywordTok{save.image}\NormalTok{(}\StringTok{"Counts2.RData"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -702,6 +727,19 @@ expressed genes. This threshold is usually \emph{0.05}, but it might be relaxed 
 
 In this chapter we will run through a series of example downstream analyses that can be performed on the identified differentially expressed genes.
 
+\hypertarget{load-previous-results}{%
+\section{Load previous results}\label{load-previous-results}}
+
+The results from the differential analysis were saved as R-objects. These are imported below and used for the rest of the analysis
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#load the required package}
+\KeywordTok{library}\NormalTok{(limma)}
+\KeywordTok{load}\NormalTok{(}\StringTok{"Counts2.RData"}\NormalTok{) }\CommentTok{# loads the counts dataset}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{visualisations}{%
 \section{Visualisations}\label{visualisations}}
 
@@ -715,10 +753,6 @@ package which is an extension of the \emph{heatmap.2} function within the \textb
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{#load the required package}
-\KeywordTok{library}\NormalTok{(limma)}
-\KeywordTok{load}\NormalTok{(}\StringTok{"Counts.rdata"}\NormalTok{)}
-\KeywordTok{load}\NormalTok{(}\StringTok{"DE_results.RData"}\NormalTok{)}
 \NormalTok{heat.data <-}\StringTok{ }\NormalTok{y}\OperatorTok{$}\NormalTok{E[}\KeywordTok{head}\NormalTok{(}\KeywordTok{rownames}\NormalTok{(de.genes), }\DataTypeTok{n =} \DecValTok{100}\NormalTok{), ]}
 \KeywordTok{colnames}\NormalTok{(heat.data) <-}\StringTok{ }\NormalTok{targets}\OperatorTok{$}\NormalTok{Sample}
 \KeywordTok{rownames}\NormalTok{(heat.data) <-}\StringTok{ }\KeywordTok{head}\NormalTok{(de.genes}\OperatorTok{$}\NormalTok{Symbol, }\DataTypeTok{n =} \DecValTok{100}\NormalTok{)}
@@ -732,7 +766,14 @@ package which is an extension of the \emph{heatmap.2} function within the \textb
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-27-1.pdf}
+\begin{figure}
+
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/figheatmap-1} 
+
+}
+
+\caption{Heatmap plot of differentially expressed genes in CIS vs WT}\label{fig:figheatmap}
+\end{figure}
 
 \hypertarget{mean-difference-plot}{%
 \subsection{Mean-difference plot}\label{mean-difference-plot}}
@@ -745,7 +786,36 @@ A mean-difference plot or MD-plot is a plot that can be used to show the fold-ch
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-28-1.pdf}
+\begin{figure}
+
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/figmd-1} 
+
+}
+
+\caption{Mean-Difference plot. Represents relationship between mean expression and fold-changes}\label{fig:figmd}
+\end{figure}
+
+Alternatively, an interactive mean-difference plot can be generated using \emph{glMDPlot} in \textbf{Glimma} which outputs an interactive html page with results displayed in the left panel and the expression values for the selected gene. A gene within the dataset can be searched through a search bar.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Glimma)}
+\KeywordTok{glMDPlot}\NormalTok{(fit.contr, }\DataTypeTok{coef=}\DecValTok{1}\NormalTok{, }\DataTypeTok{status=}\NormalTok{dt, }\DataTypeTok{main=}\KeywordTok{colnames}\NormalTok{(fit.contr)[}\DecValTok{1}\NormalTok{],}
+         \DataTypeTok{side.main=}\StringTok{"ENTREZID"}\NormalTok{, }\DataTypeTok{counts=}\NormalTok{y}\OperatorTok{$}\NormalTok{E, }\DataTypeTok{groups=}\KeywordTok{colnames}\NormalTok{(contr),}
+         \DataTypeTok{launch =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\href{glimma-plots/MD-Plot.html}{Click here for interactive version}
+
+Hover over points to see sample-wise expression
+
+\begin{itemize}
+\item
+  Click on column names to sort by column
+\item
+  Click rows on tables to highlight gene
+\end{itemize}
 
 \hypertarget{volcano-plot}{%
 \subsection{Volcano plot}\label{volcano-plot}}
@@ -760,13 +830,22 @@ A volcano plot shows the relationship between the log fold-change on the x-axis 
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-29-1.pdf}
+\begin{figure}
 
-\hypertarget{gene-ontology-go-and-kegg-enrichment-analysis}{%
-\section{Gene Ontology (GO) and KEGG enrichment analysis}\label{gene-ontology-go-and-kegg-enrichment-analysis}}
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/figvolc-1} 
 
-\hypertarget{gene-ontology}{%
-\subsection{Gene Ontology}\label{gene-ontology}}
+}
+
+\caption{Volcano plot. Shows the relationship between fold-change and significance of change}\label{fig:figvolc}
+\end{figure}
+
+\hypertarget{pathway-analysis}{%
+\section{Pathway Analysis}\label{pathway-analysis}}
+
+From the differential expression analysis there were some 3181 differentially expressed genes. This is quiet a long list of genes to interpret and nearly impossible to go through a gene at a time to gain any meaningful biological understanding. A common downstream analysis step is to understand pathways/gene networks that the genes are implicated in.
+
+\hypertarget{gene-ontology-enrichment}{%
+\subsection{Gene Ontology enrichment}\label{gene-ontology-enrichment}}
 
 Gene ontology (\url{http://www.geneontology.org/}) provides a controlled vocabulary for describing biological processes (BP ontology), molecular functions (MF ontology) and cellular components (CC ontology).
 
@@ -784,15 +863,16 @@ You can use enrichment analysis as another way of drawing conclusions from your 
 
 Here, we use the \emph{goana} function within the \textbf{limma} package to test for enrichment of differentially expressed genes between the CIS vs WT. Note that the \emph{p-values} returned by \emph{goana} are \textbf{unadjusted for multiple testing}. It is therfore, advisable that if the results are to be published, only terms with very small p-values should be included. For instance, in the example below, only terms with a p-value \textless{} \ensuremath{10^{-5}} are retained.
 
+We use the output from the differential expression analysis and test for overrepresentation for the Up and Down regulated genes separately.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{requireNamespace}\NormalTok{(}\StringTok{"GO.db"}\NormalTok{))}
 \NormalTok{  BiocManager}\OperatorTok{::}\KeywordTok{install}\NormalTok{(}\StringTok{"GO.db"}\NormalTok{)}
 \KeywordTok{library}\NormalTok{(GO.db)}
-\NormalTok{go.rst<-}\KeywordTok{goana}\NormalTok{(fit.contr,}\DataTypeTok{coef =} \DecValTok{1}\NormalTok{,}\DataTypeTok{FDR =} \FloatTok{0.05}\NormalTok{,}\DataTypeTok{species=}\StringTok{"Mm"}\NormalTok{)}
-\CommentTok{#order enriched terms by p-value}
-\NormalTok{go.rst<-go.rst[}\KeywordTok{with}\NormalTok{(go.rst,P.Up}\OperatorTok{<}\NormalTok{enrich.pvalue}\OperatorTok{|}\NormalTok{P.Down}\OperatorTok{<}\NormalTok{enrich.pvalue),]}
-\NormalTok{go.rst<-}\KeywordTok{topGO}\NormalTok{(go.rst,}\DataTypeTok{number =} \OtherTok{Inf}\NormalTok{)}
+\NormalTok{go.rst<-}\KeywordTok{goana}\NormalTok{(fit.contr,}\DataTypeTok{species=}\StringTok{"Mm"}\NormalTok{)}
+\CommentTok{#exclude terms not meeting our cut-off}
+\NormalTok{go.rst<-go.rst[}\KeywordTok{rowSums}\NormalTok{(go.rst[,}\KeywordTok{c}\NormalTok{(}\StringTok{"P.Up"}\NormalTok{,}\StringTok{"P.Down"}\NormalTok{)]}\OperatorTok{<}\NormalTok{enrich.pvalue)}\OperatorTok{==}\DecValTok{1}\NormalTok{,]}
 \KeywordTok{topGO}\NormalTok{(go.rst)}
 \end{Highlighting}
 \end{Shaded}
@@ -842,12 +922,13 @@ Here, we use the \emph{goana} function within the \textbf{limma} package to test
 ## GO:0080090  753    1 2.2e-39
 \end{verbatim}
 
-A simple way to visualise the enrichment results is through a bar plot as shown below which shows the top 10 enriched terms
+A simple way to visualise the enrichment results is through a bar plot as shown below which shows the top 10 enriched terms in each direction.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{top.up <-}\StringTok{ }\KeywordTok{head}\NormalTok{(go.rst[}\KeywordTok{order}\NormalTok{(go.rst}\OperatorTok{$}\NormalTok{P.Up, }\DataTypeTok{decreasing =}\NormalTok{ F), ], }\DataTypeTok{n =} \DecValTok{10}\NormalTok{)}
-\NormalTok{top.down <-}\StringTok{ }\KeywordTok{head}\NormalTok{(go.rst[}\KeywordTok{order}\NormalTok{(go.rst}\OperatorTok{$}\NormalTok{P.Down, }\DataTypeTok{decreasing =}\NormalTok{ F), ], }\DataTypeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{top.up <-}\StringTok{ }\KeywordTok{head}\NormalTok{(go.rst[}\KeywordTok{order}\NormalTok{(go.rst}\OperatorTok{$}\NormalTok{P.Up, }\DataTypeTok{decreasing =}\NormalTok{ F),], }\DataTypeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{top.down <-}
+\StringTok{  }\KeywordTok{head}\NormalTok{(go.rst[}\KeywordTok{order}\NormalTok{(go.rst}\OperatorTok{$}\NormalTok{P.Down, }\DataTypeTok{decreasing =}\NormalTok{ F),], }\DataTypeTok{n =} \DecValTok{10}\NormalTok{)}
 \NormalTok{bar.data <-}
 \StringTok{  }\KeywordTok{rbind}\NormalTok{(}
     \KeywordTok{data.frame}\NormalTok{(}
@@ -861,31 +942,54 @@ A simple way to visualise the enrichment results is through a bar plot as shown 
       \DataTypeTok{Dir =} \StringTok{"down"}
 \NormalTok{    )}
 \NormalTok{  )}
-\NormalTok{bar.data <-}\StringTok{ }\NormalTok{bar.data[}\KeywordTok{order}\NormalTok{(bar.data}\OperatorTok{$}\NormalTok{P.value, }\DataTypeTok{decreasing =}\NormalTok{ F), ]}
+\NormalTok{bar.data <-}\StringTok{ }\NormalTok{bar.data[}\KeywordTok{order}\NormalTok{(bar.data}\OperatorTok{$}\NormalTok{P.value, }\DataTypeTok{decreasing =}\NormalTok{ F),]}
 \KeywordTok{par}\NormalTok{(}\DataTypeTok{mai =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.8}\NormalTok{, }\DecValTok{2}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.5}\NormalTok{))}
-\NormalTok{bb<-}\KeywordTok{barplot}\NormalTok{(}
+\NormalTok{bb <-}\StringTok{ }\KeywordTok{barplot}\NormalTok{(}
   \OperatorTok{-}\KeywordTok{log10}\NormalTok{(bar.data}\OperatorTok{$}\NormalTok{P.value),}
   \DataTypeTok{horiz =}\NormalTok{ T,}
   \DataTypeTok{xlab =} \StringTok{" -log10(p-value)"}\NormalTok{,}
   \DataTypeTok{cex.names =} \FloatTok{0.5}\NormalTok{,}
-  \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{)[}\KeywordTok{factor}\NormalTok{(bar.data}\OperatorTok{$}\NormalTok{Dir)]}
+  \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{)[}\KeywordTok{factor}\NormalTok{(bar.data}\OperatorTok{$}\NormalTok{Dir)]}
 \NormalTok{)}
-\KeywordTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DataTypeTok{line =} \FloatTok{-0.8}\NormalTok{,}\DataTypeTok{at=}\NormalTok{bb,}\DataTypeTok{labels =}\NormalTok{ bar.data}\OperatorTok{$}\NormalTok{Term,}\DataTypeTok{tick =}\NormalTok{ F,}\DataTypeTok{las=}\DecValTok{2}\NormalTok{,}\DataTypeTok{cex.axis=}\FloatTok{0.5}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}
+  \DecValTok{2}\NormalTok{,}
+  \DataTypeTok{line =} \FloatTok{-0.8}\NormalTok{,}
+  \DataTypeTok{at =}\NormalTok{ bb,}
+  \DataTypeTok{labels =}\NormalTok{ bar.data}\OperatorTok{$}\NormalTok{Term,}
+  \DataTypeTok{tick =}\NormalTok{ F,}
+  \DataTypeTok{las =} \DecValTok{2}\NormalTok{,}
+  \DataTypeTok{cex.axis =} \FloatTok{0.5}
+\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{,}\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Up"}\NormalTok{,}\StringTok{"Down"}\NormalTok{),}\DataTypeTok{pch =} \DecValTok{22}\NormalTok{,}\DataTypeTok{pt.bg =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-32-1.pdf}
+\begin{figure}
+
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/enrichplot-1} 
+
+}
+
+\caption{Enrichment plot. Top enrichments in either direction}\label{fig:enrichplot}
+\end{figure}
 
 \textbf{Add gene information (optional)}
 
 Sometimes you may want to know what genes are enriched in each of the terms, this section allows you to add gene details.
 
+First, we extract the genes that are associated with the catalytic activity GO terms. This results in a list mapping the GO term and the associated genes.
+
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(GO.db)}
 \KeywordTok{library}\NormalTok{(org.Mm.eg.db)}
 \NormalTok{go.EntrezID <-}\StringTok{ }\KeywordTok{as.list}\NormalTok{(org.Mm.egGO2ALLEGS)}
 \NormalTok{go.rst <-}\StringTok{ }\NormalTok{tibble}\OperatorTok{::}\KeywordTok{rownames_to_column}\NormalTok{(go.rst, }\DataTypeTok{var =} \StringTok{"GO.ID"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{#Add gene details}
 \NormalTok{go.rst}\OperatorTok{$}\NormalTok{Genes.Up <-}\StringTok{ }\KeywordTok{unlist}\NormalTok{(}\KeywordTok{lapply}\NormalTok{(go.rst}\OperatorTok{$}\NormalTok{GO.ID, }\ControlFlowTok{function}\NormalTok{(x) \{}
 \NormalTok{  xx <-}\StringTok{ }\NormalTok{go.EntrezID[[x]]}
@@ -893,25 +997,150 @@ Sometimes you may want to know what genes are enriched in each of the terms, thi
 \StringTok{      }\KeywordTok{with}\NormalTok{(go.rst[go.rst}\OperatorTok{$}\NormalTok{GO.ID }\OperatorTok{==}\StringTok{ }\NormalTok{x,], Up }\OperatorTok{==}\StringTok{ }\DecValTok{0} \OperatorTok{|}
 \StringTok{           }\NormalTok{P.Up }\OperatorTok{>}\StringTok{ }\NormalTok{enrich.pvalue))}
     \KeywordTok{return}\NormalTok{(}\StringTok{"-"}\NormalTok{)}
-\NormalTok{  x <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(dt[}\KeywordTok{rownames}\NormalTok{(dt) }\OperatorTok{%in%}\StringTok{ }\NormalTok{xx }\OperatorTok{&}\StringTok{ }\NormalTok{dt }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{,])}
+\NormalTok{  x <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(}\KeywordTok{with}\NormalTok{(de.genes,EntrezID[logFC}\OperatorTok{>}\DecValTok{0}\NormalTok{]),xx)}
 \NormalTok{  x <-}
 \StringTok{    }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{with}\NormalTok{(fit.contr}\OperatorTok{$}\NormalTok{genes, Symbol[EntrezID }\OperatorTok{%in%}\StringTok{ }\NormalTok{xx]), }\DataTypeTok{collapse =} \StringTok{"|"}\NormalTok{)}
   \KeywordTok{return}\NormalTok{(x)}
 \NormalTok{\}))}
-
 \NormalTok{go.rst}\OperatorTok{$}\NormalTok{Genes.Down <-}\StringTok{ }\KeywordTok{unlist}\NormalTok{(}\KeywordTok{lapply}\NormalTok{(go.rst}\OperatorTok{$}\NormalTok{GO.ID, }\ControlFlowTok{function}\NormalTok{(x) \{}
 \NormalTok{  xx <-}\StringTok{ }\NormalTok{go.EntrezID[[x]]}
   \ControlFlowTok{if}\NormalTok{ (}\KeywordTok{is.null}\NormalTok{(xx) }\OperatorTok{|}
 \StringTok{      }\KeywordTok{with}\NormalTok{(go.rst[go.rst}\OperatorTok{$}\NormalTok{GO.ID }\OperatorTok{==}\StringTok{ }\NormalTok{x,], Down }\OperatorTok{==}\StringTok{ }\DecValTok{0} \OperatorTok{|}
 \StringTok{           }\NormalTok{P.Down }\OperatorTok{>}\StringTok{ }\NormalTok{enrich.pvalue))}
     \KeywordTok{return}\NormalTok{(}\StringTok{"-"}\NormalTok{)}
-\NormalTok{  x <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(dt[}\KeywordTok{rownames}\NormalTok{(dt) }\OperatorTok{%in%}\StringTok{ }\NormalTok{xx }\OperatorTok{&}\StringTok{ }\NormalTok{dt }\OperatorTok{==}\StringTok{ }\DecValTok{-1}\NormalTok{,])}
+\NormalTok{  x <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(}\KeywordTok{with}\NormalTok{(de.genes,EntrezID[logFC}\OperatorTok{<}\DecValTok{0}\NormalTok{]),xx)}
 \NormalTok{  x <-}
 \StringTok{    }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{with}\NormalTok{(fit.contr}\OperatorTok{$}\NormalTok{genes, Symbol[EntrezID }\OperatorTok{%in%}\StringTok{ }\NormalTok{xx]), }\DataTypeTok{collapse =} \StringTok{"|"}\NormalTok{)}
   \KeywordTok{return}\NormalTok{(x)}
 \NormalTok{\}))}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{kegg-pathway-enrichment}{%
+\subsection{KEGG pathway enrichment}\label{kegg-pathway-enrichment}}
+
+Pathway enrichment can also be performed against the Kyoto Encyclopedia of Genes and Genomes (KEGG) (\url{https://www.genome.jp/kegg/}) database. The KEGG database contains curated molecular pathways and disease signatures. To perform this analysis we use the \emph{kegga} function within the \textbf{limma} which is similar to the \emph{goana} function we used above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kegg.rst<-}\KeywordTok{kegga}\NormalTok{(fit.contr,}\DataTypeTok{species=}\StringTok{"Mm"}\NormalTok{)}
+\KeywordTok{topKEGG}\NormalTok{(kegg.rst)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                               Pathway    N  Up Down    P.Up
+## path:mmu03008       Ribosome biogenesis in eukaryotes   75  37    4 1.2e-14
+## path:mmu01100                      Metabolic pathways 1014 200   75 2.2e-11
+## path:mmu04810        Regulation of actin cytoskeleton  143   6   45 1.0e+00
+## path:mmu05206                     MicroRNAs in cancer  121   6   40 1.0e+00
+## path:mmu04919       Thyroid hormone signaling pathway   93   3   32 1.0e+00
+## path:mmu03010                                Ribosome  137  39    1 6.1e-07
+## path:mmu03020                          RNA polymerase   29  14    1 3.2e-06
+## path:mmu01240               Biosynthesis of cofactors  112  32    2 5.6e-06
+## path:mmu04330                 Notch signaling pathway   43   2   18 9.8e-01
+## path:mmu00310                      Lysine degradation   52   1   20 1.0e+00
+## path:mmu04611                     Platelet activation   76   0   25 1.0e+00
+## path:mmu04062             Chemokine signaling pathway  119   5   34 1.0e+00
+## path:mmu00190               Oxidative phosphorylation  117  31    0 4.0e-05
+## path:mmu05200                      Pathways in cancer  323  26   71 1.0e+00
+## path:mmu05205                 Proteoglycans in cancer  126   8   34 9.9e-01
+## path:mmu04658        Th1 and Th2 cell differentiation   69   6   22 8.9e-01
+## path:mmu05202 Transcriptional misregulation in cancer  120  16   32 4.6e-01
+## path:mmu05224                           Breast cancer   81   8   24 8.2e-01
+## path:mmu03050                              Proteasome   44  15    0 2.1e-04
+## path:mmu05012                       Parkinson disease  206  44   12 3.1e-04
+##                P.Down
+## path:mmu03008 1.0e+00
+## path:mmu01100 1.0e+00
+## path:mmu04810 4.7e-08
+## path:mmu05206 5.7e-08
+## path:mmu04919 4.3e-07
+## path:mmu03010 1.0e+00
+## path:mmu03020 9.9e-01
+## path:mmu01240 1.0e+00
+## path:mmu04330 6.4e-06
+## path:mmu00310 9.3e-06
+## path:mmu04611 1.9e-05
+## path:mmu04062 2.1e-05
+## path:mmu00190 1.0e+00
+## path:mmu05200 4.1e-05
+## path:mmu05205 7.5e-05
+## path:mmu04658 1.0e-04
+## path:mmu05202 1.5e-04
+## path:mmu05224 1.8e-04
+## path:mmu03050 1.0e+00
+## path:mmu05012 1.0e+00
+\end{verbatim}
+
+\hypertarget{gene-set-enrichment-analysis}{%
+\subsection{Gene Set Enrichment Analysis}\label{gene-set-enrichment-analysis}}
+
+GO and KEGG enrichment analysis uses the list of differentially expressed genes to test for over-representation of these genes. As such the results typically depend on the cut-offs used to get the differentially expressed genes.
+
+Gene Set Enrichment Analysis is instead performed using \emph{fry}, a gene set enrichment function within the \textbf{limma} package. Unlike above where we focused on a subset of genes(differentially genes), here all the genes in the set are used to test for gene expression signatures or pathways. A test is performed against the GO terms for demonstrative purposes, alternatively if you wish to test against a specific gene set, this can easily be done by importing that list.
+
+We then use \emph{fry} to test for enrichment between CIS and WT. We use the design matrix `design',the expression values `y' and the contrast matrix `contr' from the imported results to perform the gene set test and the GO term and gene map that we created above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{go.all<-go.EntrezID[go.rst}\OperatorTok{$}\NormalTok{GO.ID]}
+\KeywordTok{names}\NormalTok{(go.all)<-go.rst}\OperatorTok{$}\NormalTok{Term}
+\NormalTok{fry.GSEA<-}\KeywordTok{fry}\NormalTok{(y,}\DataTypeTok{index =}\NormalTok{ go.all,}\DataTypeTok{design =}\NormalTok{ design,}\DataTypeTok{contrast =}\NormalTok{ contr)}
+\KeywordTok{head}\NormalTok{(fry.GSEA)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                                        NGenes Direction  PValue
+## meiotic nuclear division                                  108      Down 2.3e-07
+## chromosomal region                                        274      Down 3.2e-06
+## chromosome organization involved in meiotic cell cycle     42      Down 1.3e-04
+## meiotic chromosome segregation                             60      Down 1.6e-04
+## chromosome, centromeric region                            187      Down 3.3e-04
+## 90S preribosome                                            28        Up 5.1e-04
+##                                                            FDR PValue.Mixed
+## meiotic nuclear division                               0.00018       0.0131
+## chromosomal region                                     0.00125       0.0162
+## chromosome organization involved in meiotic cell cycle 0.03044       0.0094
+## meiotic chromosome segregation                         0.03044       0.0079
+## chromosome, centromeric region                         0.05207       0.0145
+## 90S preribosome                                        0.05876       0.0039
+##                                                        FDR.Mixed
+## meiotic nuclear division                                   0.034
+## chromosomal region                                         0.034
+## chromosome organization involved in meiotic cell cycle     0.034
+## meiotic chromosome segregation                             0.034
+## chromosome, centromeric region                             0.034
+## 90S preribosome                                            0.034
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{term.test<-}\KeywordTok{rownames}\NormalTok{(fry.GSEA)[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we can visualise the gene set enrichment results using a barcode plot. The barcode plot is used to plot the positions of genes within a set in ranked list of statistics. The statistics are ranked from left to right ie. from smallest to largest.
+
+To do so, the gene identifies for the term should first be mapped to the index position of each gene in the expression matrix;
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{index<-}\KeywordTok{rownames}\NormalTok{(fit.contr) }\OperatorTok{%in%}\StringTok{ }\NormalTok{go.all[[}\KeywordTok{rownames}\NormalTok{(fry.GSEA)[}\DecValTok{1}\NormalTok{]]]}
+\KeywordTok{barcodeplot}\NormalTok{(fit.contr}\OperatorTok{$}\NormalTok{coefficients[,}\StringTok{"CISvsWT"}\NormalTok{],}\DataTypeTok{index =}\NormalTok{ index,}\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"CS"}\NormalTok{,}\StringTok{"WT"}\NormalTok{),}
+            \DataTypeTok{main=}\KeywordTok{rownames}\NormalTok{(fry.GSEA)[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{bookdown-RNA-seq-protocol_files/figure-latex/unnamed-chunk-34-1} 
+
+}
+
+\caption{Barcode plot showing the enrichment of meiotic nuclear division in CS vs WT}\label{fig:unnamed-chunk-34}
+\end{figure}
 
 \bibliography{book.bib,packages.bib,Genome.bib}
 

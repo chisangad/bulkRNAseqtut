@@ -1,3 +1,11 @@
+fig:fig1
+fig:figqs
+fig:figmds
+fig:figheatmap
+fig:figmd
+fig:figvolc
+fig:enrichplot
+fig:unnamed-chunk-34
 intro
 prerequisites
 data
@@ -17,9 +25,12 @@ gene-filtering
 sample-clustering
 statistical-testing-of-differential-expression
 downstream-analysis
+load-previous-results
 visualisations
 heatmaps
 mean-difference-plot
 volcano-plot
-gene-ontology-go-and-kegg-enrichment-analysis
-gene-ontology
+pathway-analysis
+gene-ontology-enrichment
+kegg-pathway-enrichment
+gene-set-enrichment-analysis

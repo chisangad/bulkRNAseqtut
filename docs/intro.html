@@ -24,7 +24,7 @@
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-02-08" />
+<meta name="date" content="2021-02-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -154,13 +154,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.8" data-path="more-details-on-the-protocol.html"><a href="more-details-on-the-protocol.html#statistical-testing-of-differential-expression"><i class="fa fa-check"></i><b>5.8</b> Statistical testing of differential expression</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="downstream-analysis.html"><a href="downstream-analysis.html"><i class="fa fa-check"></i><b>6</b> Downstream analysis</a><ul>
-<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.1</b> Visualisations</a><ul>
-<li class="chapter" data-level="6.1.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.1.1</b> Heatmaps</a></li>
-<li class="chapter" data-level="6.1.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.1.2</b> Mean-difference plot</a></li>
-<li class="chapter" data-level="6.1.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.1.3</b> Volcano plot</a></li>
+<li class="chapter" data-level="6.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#load-previous-results"><i class="fa fa-check"></i><b>6.1</b> Load previous results</a></li>
+<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#visualisations"><i class="fa fa-check"></i><b>6.2</b> Visualisations</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#heatmaps"><i class="fa fa-check"></i><b>6.2.1</b> Heatmaps</a></li>
+<li class="chapter" data-level="6.2.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#mean-difference-plot"><i class="fa fa-check"></i><b>6.2.2</b> Mean-difference plot</a></li>
+<li class="chapter" data-level="6.2.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#volcano-plot"><i class="fa fa-check"></i><b>6.2.3</b> Volcano plot</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-go-and-kegg-enrichment-analysis"><i class="fa fa-check"></i><b>6.2</b> Gene Ontology (GO) and KEGG enrichment analysis</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology"><i class="fa fa-check"></i><b>6.2.1</b> Gene Ontology</a></li>
+<li class="chapter" data-level="6.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#pathway-analysis"><i class="fa fa-check"></i><b>6.3</b> Pathway Analysis</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-ontology-enrichment"><i class="fa fa-check"></i><b>6.3.1</b> Gene Ontology enrichment</a></li>
+<li class="chapter" data-level="6.3.2" data-path="downstream-analysis.html"><a href="downstream-analysis.html#kegg-pathway-enrichment"><i class="fa fa-check"></i><b>6.3.2</b> KEGG pathway enrichment</a></li>
+<li class="chapter" data-level="6.3.3" data-path="downstream-analysis.html"><a href="downstream-analysis.html#gene-set-enrichment-analysis"><i class="fa fa-check"></i><b>6.3.3</b> Gene Set Enrichment Analysis</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -188,7 +191,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">1</span> Overview</h1>
 <p>Discovering differentially expressed genes is one of the most important applications of RNA sequenicng technologies. This RNA-seq analysis protocol provides step-by-step procedures for a successful analysis of an RNA-seq dataset. The protocol can be applied to RNA-seq data generated
 from any species that has a reference genome and an annotation of genes and it can be applied to both small and large RNA-seq experiments.</p>
-<p>This protocol comprises three major steps including read mapping, read counting and statistical testing (Fig. 1). Read mapping and counting are performed using Rsubread package <span class="citation">(Liao, Smyth, and Shi <a href="#ref-Rsubread2019">2019</a>)</span> and statistical testing is carried out using limma package <span class="citation">(Ritchie et al. <a href="#ref-limma2015">2015</a>)</span>.</p>
+<p>This protocol comprises three major steps including read mapping, read counting and statistical testing (Figure <a href="intro.html#fig:fig1">1.1</a>). Read mapping and counting are performed using Rsubread package <span class="citation">(Liao, Smyth, and Shi <a href="#ref-Rsubread2019">2019</a>)</span> and statistical testing is carried out using limma package <span class="citation">(Ritchie et al. <a href="#ref-limma2015">2015</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig1"></span>
+<img src="Fig1.png" alt="Overview of the RNA-seq analysis protocol. The three boxes enclosed by dashed lines represent the three major components of the protocol. Each rectangle represents an R function and each rounded rectangle denotes data that are input to or output from a funtion" width="351" />
+<p class="caption">
+Figure 1.1: Overview of the RNA-seq analysis protocol. The three boxes enclosed by dashed lines represent the three major components of the protocol. Each rectangle represents an R function and each rounded rectangle denotes data that are input to or output from a funtion
+</p>
+</div>
 <p><strong>Read mapping.</strong><br />
 Read mapping is the first step in an RNA-seq analysis. In this step, an index for the reference genome will be first built using <em>buildindex()</em> function and then reads will be aligned to the genome using the <em>align()</em> function <span class="citation">(Liao, Smyth, and Shi <a href="#ref-Rsubread2019">2019</a>, <a href="#ref-liao2013subread">2013</a><a href="#ref-liao2013subread">b</a>)</span>. Index building is a one-off operation. The built index can be reused in future RNA-seq analyses.
 Read mapping results generated from <em>align()</em> are saved to BAM or SAM format files. <em>align()</em> also returns a mapping summary including percentages of mapped reads, uniquely mapped reads and multi-mapping reads.</p>
